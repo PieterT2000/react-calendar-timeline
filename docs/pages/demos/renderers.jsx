@@ -163,7 +163,7 @@ export default class App extends Component {
         groups={groups}
         items={items}
         keys={keys}
-        sidebarWidth={150}
+        sidebarWidth={400}
         sidebarContent={<GroupRenderer />}
         canMove
         canResize='right'

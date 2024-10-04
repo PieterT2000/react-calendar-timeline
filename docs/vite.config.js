@@ -18,7 +18,7 @@ export default defineConfig({
           // eslint-disable-next-line no-undef
           if (String(process.env.SHOW_ALL_COMPONENT_DEMOS) === 'true') {
             // show all component demos during dev
-            helpers.watchFiles(srcPath, `${srcPath}/demos/**/*.{jsx,md?(x)}`, async function fileHandler(file, api) {
+            helpers.watchFiles(srcPath, `${srcPath}/demos/**/*.{jsx,tsx,md?(x)}`, async function fileHandler(file, api) {
               const { relative, path: absolute } = file;
               const match = relative.match(/demos\/(.*)\.([tj]sx|mdx?)$/);
               if (!match) throw new Error('unexpected file: ' + absolute);
