@@ -25,7 +25,7 @@ import { ItemsProvider } from './items/ItemsContext';
 import TimelineHeaders from './headers/TimelineHeaders';
 import { cn } from './utility/tw.js';
 import RenderHeaders from './headers/RenderHeaders.jsx';
-import { ReactCalendarTimelineProps, Unit } from 'react-calendar-timeline-v2';
+import { ReactCalendarTimelineProps, Unit } from 'react-calendar-timeline-v3';
 
 interface ReactCalendarTimelineState {
   width: number;

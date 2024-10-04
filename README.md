@@ -1,8 +1,11 @@
-# React calendar timeline v2 support React 18
+# React calendar timeline v3
 
-- [Refer doc](https://github.com/vitejs/vite-plugin-react-swc](https://github.com/namespace-ee/react-calendar-timeline)https://github.com/namespace-ee/react-calendar-timeline)
+## Supports
+
+- React 18
+- Vite, CRA, etc.
+- Typescript
 
 # Install
-```
-npm i react-calendar-timeline-v2
-```
+
+... WIP

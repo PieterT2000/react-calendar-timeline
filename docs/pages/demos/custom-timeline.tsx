@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useLayoutEffect, useRef, useState } from 'react';
 import {
   CustomHeader,
   CustomHeaderPropsChildrenFnProps,
@@ -7,11 +7,11 @@ import {
   Timeline,
   TimelineMarkers,
   TodayMarker,
-} from 'react-calendar-timeline-v2';
+} from 'react-calendar-timeline-v3';
 import { cn } from '../utils.js';
 import './../index.css';
-import { TimelineHeaders } from 'react-calendar-timeline-v2';
-import { SidebarHeader } from 'react-calendar-timeline-v2';
+import { TimelineHeaders } from 'react-calendar-timeline-v3';
+import { SidebarHeader } from 'react-calendar-timeline-v3';
 import { dummyYearlyTotals } from '../data.js';
 import throttle from 'lodash.throttle';
 
@@ -306,7 +306,7 @@ export default function App() {
               'border-0',
               isEven ? 'bg-secondary-violet-25 border-r' : 'bg-secondary-violet-50 border-l',
               BORDER_COLOR,
-              // 'border-0',
+              'border-0',
             ];
           }}
           horizontalLineClassNamesForGroup={() => ['border-b-0 px-0']}

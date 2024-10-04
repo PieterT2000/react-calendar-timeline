@@ -13,7 +13,7 @@ import {
   CustomHeader,
   TimelineHeaders,
   DateHeader,
-} from 'react-calendar-timeline-v2';
+} from 'react-calendar-timeline-v3';
 
 import generateFakeData from '../generate-fake-data';
 import './style.css';

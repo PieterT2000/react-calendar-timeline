@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { Timeline, CustomHeader, DateHeader, SidebarHeader, TimelineHeaders } from 'react-calendar-timeline-v2';
+import { Timeline, CustomHeader, DateHeader, SidebarHeader, TimelineHeaders } from 'react-calendar-timeline-v3';
 import { useState } from 'react';
 
 import generateFakeData from '../generate-fake-data';
