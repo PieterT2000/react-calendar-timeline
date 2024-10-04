@@ -1,7 +1,7 @@
 import { Dayjs } from 'dayjs';
 import ReactCalendarTimeline from 'react-calendar-timeline';
 
-module 'react-calendar-timeline-v2' {
+module 'react-calendar-timeline-v3' {
   export * from 'react-calendar-timeline';
   export { ReactCalendarTimeline as Timeline };
 

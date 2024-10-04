@@ -1,7 +1,7 @@
 import React, { useMemo, useContext } from 'react';
 
 import { noop } from '../utility/generic';
-import { TimelineTimeSteps } from 'react-calendar-timeline-v2';
+import { TimelineTimeSteps } from 'react-calendar-timeline-v3';
 
 const defaultContextState = {
   registerScroll: () => {

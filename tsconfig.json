@@ -15,7 +15,7 @@
     "noEmit": true,
     "baseUrl": "./",
     "paths": {
-      "react-calendar-timeline-v2": ["./src"]
+      "react-calendar-timeline-v3": ["./src"]
     }
   },
   "include": ["src", "docs"]
