@@ -21,10 +21,11 @@ export default defineConfig({
       fileName: 'react-calendar-timeline-v2',
     },
     rollupOptions: {
-      external: ['react'],
+      external: ['react', 'react-dom', 'react/jsx-runtime'],
       output: {
         globals: {
           react: 'React',
+          'react-dom': 'ReactDOM',
         },
       },
     },

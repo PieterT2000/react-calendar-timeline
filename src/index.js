@@ -1,4 +1,4 @@
-import './lib/Timeline.scss?export'
+import './index.css?export'
 import Timeline from './lib/Timeline'
 
 export { default as TimelineMarkers } from './lib/markers/public/TimelineMarkers'

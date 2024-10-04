@@ -1,0 +1,68 @@
+@config './../tailwind.config.js';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: white;
+    --foreground: #0f172a;
+
+    --muted: rgba(0, 0, 0, 0.05);
+    --muted-foreground: hsl(215.4 16.3% 46.9%);
+
+    --popover: hsl(0 0% 100%);
+    --popover-foreground: hsl(222.2 47.4% 11.2%);
+
+    --border: hsl(214.3 31.8% 91.4%);
+    --input: hsl(214.3 31.8% 91.4%);
+
+    --card: hsl(0 0% 100%);
+    --card-foreground: hsl(222.2 47.4% 11.2%);
+
+    --primary: 255 95 73;
+    --primary-foreground: 255 255 255;
+    --primary-dark: 39 29 52;
+
+    --secondary-old: 39 29 52;
+    --secondary-1: 46 208 255;
+    --secondary-2: 243 206 58;
+    --secondary-3: 74 207 151;
+
+    --accent: 255 95 73;
+    --accent-foreground: 15 23 42;
+
+    --destructive: #dc2626;
+    --destructive-foreground: hsl(210 40% 98%);
+
+    --ring: hsl(215 20.2% 65.1%);
+
+    --green: 0 175 153;
+    --purple: 201 151 237;
+    --orange: 222 163 95;
+    --text-gray: 100 116 139;
+    --text-black: 15 23 42;
+    --gray-stroke: 226 232 240;
+    --gray-fill: 246 247 247;
+    --table-outline: 168 168 168;
+    --border-stroke: 51 65 85;
+
+    --radius: 0.5rem;
+
+    --nav-height: 70px;
+    /* --body-height: calc(100vh - var(--nav-height)); */
+    --body-height: 100vh;
+
+    ----icon-custom: 26px;
+
+    --shadow-map: 0px 4px 7px 0px rgba(0, 0, 0, 0.1);
+    --shadow-block: 0px 4px 8px 0px rgba(185, 185, 185, 0.25);
+    --shadow-drop: 0px 4px 12px 0px rgba(0, 0, 0, 0.15);
+    --shadow-search-input: 0 2px 5px 0 rgba(0, 0, 0, 0.1);
+    --shadow-tooltip: 0px 4px 8px 0px rgba(39, 29, 52, 0.1);
+    --icon: #969696;
+    --icon-active: var(--accent);
+    --star: var(--icon);
+    --star-active: #fff06e;
+  }
+}

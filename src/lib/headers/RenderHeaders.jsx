@@ -1,25 +1,25 @@
-import React from 'react'
-import TimelineHeaders from './TimelineHeaders'
-import DateHeader from './DateHeader'
+import React from 'react';
+import TimelineHeaders from './TimelineHeaders';
+import DateHeader from './DateHeader';
 
 const RenderHeaders = ({ children, isTimelineHeader }) => {
   if (children) {
-    let headerRenderer
+    let headerRenderer;
     React.Children.map(children, (child) => {
       if (isTimelineHeader(child)) {
-        headerRenderer = child
+        headerRenderer = child;
       }
-    })
+    });
     if (headerRenderer) {
-      return headerRenderer
+      return headerRenderer;
     }
   }
   return (
     <TimelineHeaders>
-      <DateHeader unit="primaryHeader" className="primaryHeader" />
-      <DateHeader className="secondaryHeader" />
+      <DateHeader unit='primaryHeader' className='relative' />
+      <DateHeader className='relative' />
     </TimelineHeaders>
-  )
-}
+  );
+};
 
-export default RenderHeaders
+export default RenderHeaders;

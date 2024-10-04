@@ -1,4 +1,4 @@
-import moment from 'moment'
+import dayjs from 'dayjs'
 import { _get } from './generic'
 
 /**
@@ -60,7 +60,7 @@ export function calculateTimeForXPosition(
 }
 
 export function iterateTimes(start, end, unit, timeSteps, callback) {
-  let time = moment(start).startOf(unit)
+  let time = dayjs(start).startOf(unit)
 
   if (timeSteps[unit] && timeSteps[unit] > 1) {
     const value = time.get(unit)
@@ -68,7 +68,7 @@ export function iterateTimes(start, end, unit, timeSteps, callback) {
   }
 
   while (time.valueOf() < end) {
-    const nextTime = moment(time).add(timeSteps[unit] || 1, `${unit}s`)
+    const nextTime = dayjs(time).add(timeSteps[unit] || 1, `${unit}s`)
     callback(time, nextTime)
     time = nextTime
   }
@@ -83,18 +83,12 @@ export function iterateTimes(start, end, unit, timeSteps, callback) {
  * zoom: (in milliseconds) difference between time start and time end of timeline canvas
  * width: (in pixels) pixel width of timeline canvas
  * timeSteps: map of timeDividers with number to indicate step of each divider
- */
-
-// the smallest cell we want to render is 17px
-// this can be manipulated to make the breakpoints change more/less
-// i.e. on zoom how often do we switch to the next unit of time
-// i think this is the distance between cell lines
-export const minCellWidth = 17
-
-export function getMinUnit(zoom, width, timeSteps) {
+ * minCellWidth: minimum width of a cell in pixels
+*/
+export function getMinUnit(zoom, width, timeSteps, minCellWidth) {
   // for supporting weeks, its important to remember that each of these
   // units has a natural progression to the other. i.e. a year is 12 months
-  // a month is 24 days, a day is 24 hours.
+  // a month is 30 days, a day is 24 hours.
   // with weeks this isnt the case so weeks needs to be handled specially
   const timeDividers = {
     second: 1000,

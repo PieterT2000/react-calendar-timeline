@@ -1,7 +1,7 @@
-import React, { Component } from 'react'
-import classNames from 'classnames'
+import React, { Component } from 'react';
 
-import { _get, arraysEqual } from '../utility/generic'
+import { _get, arraysEqual } from '../utility/generic';
+import { cn } from '../utility/tw';
 
 export default class Sidebar extends Component {
   shouldComponentUpdate(nextProps) {
@@ -11,7 +11,7 @@ export default class Sidebar extends Component {
       nextProps.height === this.props.height &&
       arraysEqual(nextProps.groups, this.props.groups) &&
       arraysEqual(nextProps.groupHeights, this.props.groupHeights)
-    )
+    );
   }
 
   renderGroupContent(group, isRightSidebar, groupTitleKey, groupRightTitleKey) {
@@ -19,61 +19,50 @@ export default class Sidebar extends Component {
       return React.createElement(this.props.groupRenderer, {
         group,
         isRightSidebar,
-      })
+      });
     } else {
-      return _get(group, isRightSidebar ? groupRightTitleKey : groupTitleKey)
+      return _get(group, isRightSidebar ? groupRightTitleKey : groupTitleKey);
     }
   }
 
   render() {
-    const { width, groupHeights, height, isRightSidebar } = this.props
+    const { width, groupHeights, height, isRightSidebar } = this.props;
 
-    const { groupIdKey, groupTitleKey, groupRightTitleKey } = this.props.keys
+    const { groupIdKey, groupTitleKey, groupRightTitleKey } = this.props.keys;
 
     const sidebarStyle = {
       width: `${width}px`,
       height: `${height}px`,
-    }
+    };
 
     const groupsStyle = {
       width: `${width}px`,
-    }
+    };
 
     const groupLines = this.props.groups.map((group, index) => {
       const elementStyle = {
         height: `${groupHeights[index]}px`,
         lineHeight: `${groupHeights[index]}px`,
-      }
+      };
 
       return (
         <div
           key={_get(group, groupIdKey)}
-          className={
-            'rct-sidebar-row rct-sidebar-row-' +
-            (index % 2 === 0 ? 'even' : 'odd')
-          }
-          style={elementStyle}
-        >
-          {this.renderGroupContent(
-            group,
-            isRightSidebar,
-            groupTitleKey,
-            groupRightTitleKey,
+          className={cn(
+            'px-1 overflow-hidden whitespace-nowrap overflow-ellipsis m-0 border-b border-borderColor',
+            index % 2 === 0 ? 'bg-rowBackgroundEven' : 'bg-rowBackgroundOdd',
+            this.props.sidebarGroupClassName
           )}
+          style={elementStyle}>
+          {this.renderGroupContent(group, isRightSidebar, groupTitleKey, groupRightTitleKey)}
         </div>
-      )
-    })
+      );
+    });
 
     return (
-      <div
-        className={classNames(
-          'rct-sidebar',
-          isRightSidebar && 'rct-sidebar-right',
-        )}
-        style={sidebarStyle}
-      >
+      <div className={cn('overflow-hidden whitespace-nowrap inline-block vertical-top relative')} style={sidebarStyle}>
         <div style={groupsStyle}>{groupLines}</div>
       </div>
-    )
+    );
   }
 }

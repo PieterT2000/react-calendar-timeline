@@ -1,0 +1,29 @@
+@config "./../tailwind.config.js";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --item-color: #fff;
+  --item-background: #2196f3;
+  --item-border-color: #1a6fb3;
+  --item-selected-color: #fff;
+  --item-selected-background: #ffc107;
+  --item-selected-border-color: #ff9800;
+  --row-background-even: transparent;
+  --row-background-odd: rgba(0, 0, 0, 0.05);
+  --border-color: #bbb;
+  --sidebar-color: #fff;
+  --sidebar-background-color: #c52020;
+  --weekend: rgba(250, 246, 225, 0.5);
+  --date-header-bg-color: #f0f0f0;
+  --border-width: 1px;
+  --thick-border-width: 2px;
+}
+
+.react-timeline {
+  * {
+    @apply box-border;
+  }
+}

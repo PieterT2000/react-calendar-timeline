@@ -1,7 +1,7 @@
-import React, { Component } from 'react'
-import classNames from 'classnames'
+import React, { Component } from 'react';
 
-import PreventClickOnDrag from '../interaction/PreventClickOnDrag'
+import PreventClickOnDrag from '../interaction/PreventClickOnDrag';
+import { cn } from '../utility/tw';
 
 class GroupRow extends Component {
   render() {
@@ -14,27 +14,25 @@ class GroupRow extends Component {
       clickTolerance,
       horizontalLineClassNamesForGroup,
       group,
-    } = this.props
+    } = this.props;
 
-    const classNamesForGroup = horizontalLineClassNamesForGroup?.(group)
+    const classNamesForGroup = horizontalLineClassNamesForGroup?.(group);
+
+    const className = cn(
+      'border-b border-borderColor z-[40]',
+      {
+        'bg-rowBackgroundEven': isEvenRow,
+        'bg-rowBackgroundOdd': !isEvenRow,
+      },
+      classNamesForGroup
+    );
 
     return (
       <PreventClickOnDrag clickTolerance={clickTolerance} onClick={onClick}>
-        <div
-          onContextMenu={onContextMenu}
-          onDoubleClick={onDoubleClick}
-          className={classNames(
-            {
-              'rct-hl-even': isEvenRow,
-              'rct-hl-odd': !isEvenRow,
-            },
-            classNamesForGroup,
-          )}
-          style={style}
-        />
+        <div onContextMenu={onContextMenu} onDoubleClick={onDoubleClick} className={className} style={style} />
       </PreventClickOnDrag>
-    )
+    );
   }
 }
 
-export default GroupRow
+export default GroupRow;
