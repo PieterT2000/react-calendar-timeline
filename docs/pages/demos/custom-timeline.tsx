@@ -128,19 +128,9 @@ const TIME_CONSTANTS = {
 
 const resizeHandlerClasses = 'absolute h-full top-0 bottom-0 z-[99]';
 
-const itemRenderer: TimelineRenderProps['itemRenderer'] = ({
-  item,
-  timelineContext,
-  itemContext,
-  getItemProps,
-  getResizeProps,
-}) => {
+const itemRenderer: TimelineRenderProps['itemRenderer'] = ({ item, itemContext, getItemProps, getResizeProps }) => {
   const { left: leftResizeProps, right: rightResizeProps } = getResizeProps();
-  const backgroundColor = itemContext.selected
-    ? itemContext.dragging
-      ? 'bg-red-500'
-      : 'bg-[#FF5F49]'
-    : `bg-[${item.color}]`;
+  const backgroundColor = itemContext.selected ? (itemContext.dragging ? 'bg-red-500' : '#FF5F49') : item.color;
 
   return (
     <div
@@ -152,6 +142,9 @@ const itemRenderer: TimelineRenderProps['itemRenderer'] = ({
             'cursor-move': itemContext.selected || itemContext.dragging,
           }
         ),
+        style: {
+          backgroundColor,
+        },
       })}>
       {itemContext.useResizeHandle ? (
         <div
@@ -313,7 +306,7 @@ export default function App() {
               'border-0',
               isEven ? 'bg-secondary-violet-25 border-r' : 'bg-secondary-violet-50 border-l',
               BORDER_COLOR,
-              'border-0',
+              // 'border-0',
             ];
           }}
           horizontalLineClassNamesForGroup={() => ['border-b-0 px-0']}

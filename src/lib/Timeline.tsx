@@ -242,12 +242,6 @@ export default class ReactCalendarTimeline extends Component<ReactCalendarTimeli
     windowResizeDetector.addListener(this);
 
     this.lastTouchDistance = null;
-
-    // Publish initial unit info
-    this.props.onZoom?.(this.getTimelineContext(), this.getTimelineUnit() as Unit);
-    const { canvasWidth, width } = this.calcCanvasAndVisibleWidth();
-    this.props.onCanvasResize?.({ width: canvasWidth, visibleWidth: width, height: this.state.height! });
-    this.props.onUnitChange?.(this.unit);
   }
 
   componentWillUnmount() {
@@ -312,7 +306,7 @@ export default class ReactCalendarTimeline extends Component<ReactCalendarTimeli
       this.props.onZoom(this.getTimelineContext(), this.getTimelineUnit() as Unit);
     }
 
-    // The bounds have chaned? Report it!
+    // The bounds have changed? Report it!
     if (this.props.onBoundsChange && this.state.canvasTimeStart !== prevState.canvasTimeStart) {
       this.props.onBoundsChange(this.state.canvasTimeStart, this.state.canvasTimeStart + newZoom * 3);
     }
@@ -340,7 +334,8 @@ export default class ReactCalendarTimeline extends Component<ReactCalendarTimeli
   calcCanvasAndVisibleWidth = () => {
     const { width: containerWidth } = this.container.getBoundingClientRect();
 
-    const width = containerWidth - this.props.sidebarWidth! - this.props.rightSidebarWidth!;
+    const width =
+      containerWidth - this.props.sidebarWidth! - this.props.secondLeftSidebarWidth! - this.props.rightSidebarWidth!;
     const canvasWidth = getCanvasWidth(width, this.props.buffer);
 
     return { canvasWidth, width };
