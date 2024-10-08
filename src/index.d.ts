@@ -1,27 +1,15 @@
 import { Dayjs } from 'dayjs';
-import ReactCalendarTimeline from 'react-calendar-timeline';
+import ReactCalendarTimeline, {
+  TimelineItemBase,
+  TimelineGroupBase,
+  ReactCalendarGroupRendererProps,
+  ReactCalendarItemRendererProps,
+  Id,
+} from 'react-calendar-timeline';
 
-module 'react-calendar-timeline-v3' {
+declare module 'react-calendar-timeline-v3' {
   export * from 'react-calendar-timeline';
   export { ReactCalendarTimeline as Timeline };
-
-  // type Id = number | string;
-
-  // export interface TimelineGroupBase {
-  //   id: Id;
-  //   title: React.ReactNode;
-  //   rightTitle?: React.ReactNode | undefined;
-  //   height?: number | undefined;
-  //   stackItems?: boolean | undefined;
-  // }
-
-  // export interface ReactCalendarGroupRendererProps<CustomGroup extends TimelineGroupBase = TimelineGroupBase> {
-  //   group: CustomGroup;
-  //   isRightSidebar?: boolean | undefined;
-  // }
-
-  // export type TimelineItem<CustomItemFields, DateType = number> = TimelineItemBase<DateType> & CustomItemFields;
-  // export type TimelineGroup<CustomGroupFields> = TimelineGroupBase & CustomGroupFields;
 
   export interface TimeFormat {
     long: string;

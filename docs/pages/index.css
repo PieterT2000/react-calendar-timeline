@@ -66,3 +66,12 @@
     --star-active: #fff06e;
   }
 }
+
+.custom-sticky {
+  position: sticky;
+  left: 45%;
+  display: inline-block;
+  border-radius: 2px;
+  padding: 0 6px;
+  height: 100%;
+}
