@@ -114,6 +114,8 @@ export default class ReactCalendarTimeline extends Component<ReactCalendarTimeli
     keys: defaultKeys,
     timeSteps: defaultTimeSteps,
     headerRef: () => {},
+    sidebarRef: () => {},
+    secondLeftSidebarRef: () => {},
     scrollRef: () => {},
 
     // if you pass in visibleTimeStart and visibleTimeEnd, you must also pass onTimeChange(visibleTimeStart, visibleTimeEnd),
@@ -682,6 +684,7 @@ export default class ReactCalendarTimeline extends Component<ReactCalendarTimeli
     return (
       sidebarWidth && (
         <Sidebar
+          sidebarRef={this.props.sidebarRef}
           groups={this.props.groups}
           groupRenderer={this.props.groupRenderer}
           keys={this.props.keys}
@@ -699,6 +702,7 @@ export default class ReactCalendarTimeline extends Component<ReactCalendarTimeli
     return (
       secondLeftSidebarWidth && (
         <Sidebar
+          sidebarRef={this.props.secondLeftSidebarRef}
           groups={this.props.groups}
           keys={this.props.keys}
           groupRenderer={this.props.secondLeftSidebarGroupRenderer}

@@ -2,7 +2,6 @@ import { Dayjs } from 'dayjs';
 import ReactCalendarTimeline, {
   TimelineItemBase,
   TimelineGroupBase,
-  ReactCalendarGroupRendererProps,
   ReactCalendarItemRendererProps,
   Id,
 } from 'react-calendar-timeline';
@@ -10,6 +9,12 @@ import ReactCalendarTimeline, {
 declare module 'react-calendar-timeline-v3' {
   export * from 'react-calendar-timeline';
   export { ReactCalendarTimeline as Timeline };
+
+  export interface ReactCalendarGroupRendererProps<CustomGroup extends TimelineGroupBase = TimelineGroupBase> {
+    group: CustomGroup;
+    index: number;
+    isRightSidebar?: boolean | undefined;
+  }
 
   export interface TimeFormat {
     long: string;
@@ -99,6 +104,8 @@ declare module 'react-calendar-timeline-v3' {
     buffer?: number | undefined;
     // Fields that are in propTypes but not documented
     headerRef?: React.Ref<any> | undefined;
+    sidebarRef?: React.Ref<HTMLDivElement> | undefined;
+    secondLeftSidebarRef?: React.Ref<HTMLDivElement> | undefined;
     className?: string;
     sidebarGroupClassName?: string | undefined;
     /**
