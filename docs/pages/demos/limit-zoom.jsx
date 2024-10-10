@@ -150,7 +150,7 @@ const LimitZoom = () => {
       maxZoom={31556736000}
       minResizeWidth={50}
       dragSnap={86400}>
-      <TimelineHeaders className='sticky'>
+      <TimelineHeaders className='custom-sticky'>
         <SidebarHeader>
           {({ getRootProps }) => {
             return <div {...getRootProps()}>Propject</div>;

@@ -2,7 +2,7 @@ name: Release
 on:
   push:
     branches:
-      - master # or main
+      - main
       - alpha
       - beta
   workflow_dispatch:

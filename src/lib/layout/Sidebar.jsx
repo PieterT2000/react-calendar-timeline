@@ -14,11 +14,12 @@ export default class Sidebar extends Component {
     );
   }
 
-  renderGroupContent(group, isRightSidebar, groupTitleKey, groupRightTitleKey) {
+  renderGroupContent(group, isRightSidebar, groupTitleKey, groupRightTitleKey, index) {
     if (this.props.groupRenderer) {
       return React.createElement(this.props.groupRenderer, {
         group,
         isRightSidebar,
+        index,
       });
     } else {
       return _get(group, isRightSidebar ? groupRightTitleKey : groupTitleKey);
@@ -54,13 +55,16 @@ export default class Sidebar extends Component {
             this.props.sidebarGroupClassName
           )}
           style={elementStyle}>
-          {this.renderGroupContent(group, isRightSidebar, groupTitleKey, groupRightTitleKey)}
+          {this.renderGroupContent(group, isRightSidebar, groupTitleKey, groupRightTitleKey, index)}
         </div>
       );
     });
 
     return (
-      <div className={cn('overflow-hidden whitespace-nowrap inline-block vertical-top relative')} style={sidebarStyle}>
+      <div
+        ref={this.props.sidebarRef}
+        className={cn('overflow-hidden whitespace-nowrap inline-block vertical-top relative')}
+        style={sidebarStyle}>
         <div style={groupsStyle}>{groupLines}</div>
       </div>
     );

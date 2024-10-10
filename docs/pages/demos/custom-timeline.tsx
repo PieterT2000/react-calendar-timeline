@@ -9,7 +9,6 @@ import {
   TodayMarker,
 } from 'react-calendar-timeline-v3';
 import { cn } from '../utils.js';
-import './../index.css';
 import { TimelineHeaders } from 'react-calendar-timeline-v3';
 import { SidebarHeader } from 'react-calendar-timeline-v3';
 import { dummyYearlyTotals } from '../data.js';
@@ -27,12 +26,12 @@ export const column_defs = [
 ];
 
 const groups = [
-  { id: 1, label: 'Lighting Controls', color: '#C47CC5' },
-  { id: 2, label: 'Low Energy Lighting', color: '#9AD0C4' },
-  { id: 3, label: 'Airtightness', color: '#7BA8C6' },
-  { id: 4, label: 'Window Replacement', color: '#E9C058' },
-  { id: 5, label: 'Roof Insulation', color: '#E9C058' },
-  { id: 6, label: 'Window Insulation', color: '#EBA17F' },
+  { id: 1, label: 'Lighting Controls', title: 'Lighting Controls', color: '#C47CC5' },
+  { id: 2, label: 'Low Energy Lighting', title: 'Low Energy Lighting', color: '#9AD0C4' },
+  { id: 3, label: 'Airtightness', title: 'Airtightness', color: '#7BA8C6' },
+  { id: 4, label: 'Window Replacement', title: 'Window Replacement', color: '#E9C058' },
+  { id: 5, label: 'Roof Insulation', title: 'Roof Insulation', color: '#E9C058' },
+  { id: 6, label: 'Window Insulation', title: 'Window Insulation', color: '#EBA17F' },
 ];
 
 const defaultItems = [
@@ -51,7 +50,7 @@ const defaultItems = [
   },
   {
     id: '2',
-    group: 2,
+    group: 1,
     label: 'Low Energy Lighting',
     start_time: new Date().valueOf(),
     end_time: new Date(new Date().setMonth(new Date().getMonth() + 4)).valueOf(),
@@ -64,7 +63,7 @@ const defaultItems = [
   },
   {
     id: '3',
-    group: 3,
+    group: 1,
     label: 'Airtightness',
     start_time: new Date().valueOf(),
     end_time: new Date(new Date().setMonth(new Date().getMonth() + 5)).valueOf(),
@@ -196,7 +195,7 @@ const BORDER_COLOR = 'border-secondary-violet-50';
 export default function App() {
   const [maxZoom, setMaxZoom] = useState(6 * 365.24 * 86400 * 1000); // 6 years
   const { items, resizeItem, moveItem } = useItems();
-  const timelineRef = useRef<Timeline>(null);
+  const timelineRef = useRef<Timeline<(typeof defaultItems)[number], (typeof groups)[number]>>(null);
   // TODO: if monthly cells should not be shown, remove this.
   const [monthlyCellsVisible, setMonthlyCellsVisible] = useState(false);
 
@@ -279,6 +278,7 @@ export default function App() {
           sidebarWidth={220}
           secondLeftSidebarWidth={400}
           canMove
+          stackItems
           canResize='both'
           useResizeHandle
           itemHeightRatio={0.75}
@@ -473,7 +473,7 @@ export default function App() {
 function useItems() {
   const [items, setItems] = useState(defaultItems);
 
-  const resizeItem = (itemId: number, time: number, edge: 'left' | 'right') => {
+  const resizeItem = (itemId: string, time: number, edge: 'left' | 'right') => {
     setItems((items) =>
       items.map((item) =>
         item.id === itemId ? { ...item, [edge === 'left' ? 'start_time' : 'end_time']: time } : item
@@ -481,7 +481,7 @@ function useItems() {
     );
   };
 
-  const moveItem = (itemId: number, newStartTime: number) => {
+  const moveItem = (itemId: string, newStartTime: number) => {
     setItems((items) =>
       items.map((item) => {
         const startTimeDelta = newStartTime - item.start_time;
