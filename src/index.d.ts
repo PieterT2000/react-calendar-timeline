@@ -1,27 +1,26 @@
 import { Dayjs } from 'dayjs';
-import ReactCalendarTimeline from 'react-calendar-timeline';
+import ReactCalendarTimeline, {
+  TimelineItemBase,
+  TimelineGroupBase,
+  ReactCalendarItemRendererProps,
+  Id,
+} from 'react-calendar-timeline';
 
-module 'react-calendar-timeline-v3' {
+declare module 'react-calendar-timeline-v3' {
   export * from 'react-calendar-timeline';
   export { ReactCalendarTimeline as Timeline };
 
-  // type Id = number | string;
+  export interface ReactCalendarGroupRendererProps<CustomGroup extends TimelineGroupBase = TimelineGroupBase> {
+    group: CustomGroup;
+    index: number;
+    height: number;
+    isRightSidebar?: boolean | undefined;
+  }
 
-  // export interface TimelineGroupBase {
-  //   id: Id;
-  //   title: React.ReactNode;
-  //   rightTitle?: React.ReactNode | undefined;
-  //   height?: number | undefined;
-  //   stackItems?: boolean | undefined;
-  // }
-
-  // export interface ReactCalendarGroupRendererProps<CustomGroup extends TimelineGroupBase = TimelineGroupBase> {
-  //   group: CustomGroup;
-  //   isRightSidebar?: boolean | undefined;
-  // }
-
-  // export type TimelineItem<CustomItemFields, DateType = number> = TimelineItemBase<DateType> & CustomItemFields;
-  // export type TimelineGroup<CustomGroupFields> = TimelineGroupBase & CustomGroupFields;
+  export interface GridSidebarGroupRendererProps<CustomGroup extends TimelineGroupBase = TimelineGroupBase>
+    extends Omit<ReactCalendarGroupRendererProps<CustomGroup>, 'isRightSidebar'> {
+    gridSidebarHeaderColWidths: number[];
+  }
 
   export interface TimeFormat {
     long: string;
@@ -55,7 +54,7 @@ module 'react-calendar-timeline-v3' {
     sidebarWidth?: number | undefined;
     sidebarContent?: React.ReactNode | undefined;
     rightSidebarWidth?: number | undefined;
-    secondLeftSidebarWidth?: number;
+    gridSidebarWidth?: number;
     rightSidebarContent?: React.ReactNode | undefined;
     dragSnap?: number | undefined;
     minResizeWidth?: number | undefined;
@@ -97,9 +96,7 @@ module 'react-calendar-timeline-v3' {
     onBoundsChange?(canvasTimeStart: number, canvasTimeEnd: number): any;
     itemRenderer?: ((props: ReactCalendarItemRendererProps<CustomItem>) => React.ReactNode) | undefined;
     groupRenderer?: ((props: ReactCalendarGroupRendererProps<CustomGroup>) => React.ReactNode) | undefined;
-    secondLeftSidebarGroupRenderer?:
-      | ((props: ReactCalendarGroupRendererProps<CustomGroup>) => React.ReactNode)
-      | undefined;
+    gridSidebarGroupRenderer?: ((props: GridSidebarGroupRendererProps<CustomGroup>) => React.ReactNode) | undefined;
     resizeDetector?:
       | {
           addListener: (component: ReactCalendarTimeline) => void;
@@ -111,12 +108,19 @@ module 'react-calendar-timeline-v3' {
     buffer?: number | undefined;
     // Fields that are in propTypes but not documented
     headerRef?: React.Ref<any> | undefined;
+    sidebarRef?: React.Ref<HTMLDivElement> | undefined;
+    gridSidebarRef?: React.Ref<HTMLDivElement> | undefined;
     className?: string;
     sidebarGroupClassName?: string | undefined;
+    gridSidebarClassName?: string | undefined;
+    gridSidebarStyle?: React.CSSProperties | undefined;
     /**
      * The minimum width (in pixels) for each cell. This can be adjusted to change how often the timeline switches to the next unit of time.
      */
     minCellWidth?: number | undefined;
+    hideHorizontalLines?: boolean | undefined;
+    disableScroll?: boolean | undefined;
+    style?: React.CSSProperties | undefined;
   }
 
   export interface TimelineTimeSteps {
@@ -166,14 +170,22 @@ module 'react-calendar-timeline-v3' {
     data: Data;
   }
 
-  export interface SidebarHeaderProps<Data> {
-    variant?: 'left' | 'right' | 'secondLeft' | undefined;
-    headerData?: Data | undefined;
-    children: (props: SidebarHeaderChildrenFnProps<Data>) => React.ReactNode;
-  }
+  export type SidebarHeaderProps<Data> =
+    | {
+        variant?: 'left' | 'right' | undefined;
+        headerData?: Data | undefined;
+        children: (props: SidebarHeaderChildrenFnProps<Data>) => React.ReactNode;
+      }
+    | {
+        variant: 'grid';
+        headerData?: Data | undefined;
+        children: (
+          props: SidebarHeaderChildrenFnProps<Data> & {
+            setGridSidebarHeaderColWidths: React.Dispatch<React.SetStateAction<number[]>>;
+          }
+        ) => React.ReactNode;
+      };
   export class SidebarHeader<Data = any> extends React.Component<SidebarHeaderProps<Data>> {}
-
-  export class SecondLeftSidebarHeader<Data = any> extends React.Component<SidebarHeaderProps<Data>> {}
 
   export type Unit = 'second' | 'minute' | 'hour' | 'day' | 'week' | 'isoWeek' | 'month' | 'year';
 

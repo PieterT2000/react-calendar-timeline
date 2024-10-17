@@ -1,11 +1,10 @@
 /* eslint-disable no-console */
-import React, { Component } from 'react';
+import React from 'react';
 import moment from 'moment';
 
 import { Timeline, TimelineMarkers, TodayMarker, CustomMarker, CursorMarker } from 'react-calendar-timeline-v3';
 
 import generateFakeData from '../generate-fake-data';
-import './style.css';
 
 const minTime = moment().add(-6, 'months').valueOf();
 const maxTime = moment().add(6, 'months').valueOf();
@@ -139,7 +138,7 @@ const ControlledScrolling = () => {
 
   return (
     <div>
-      <div className='flex-center gap-1 p-1'>
+      <div className='flex justify-center items-center gap-2 p-2'>
         <button onClick={onPrevClick}>{'< Prev'}</button>
         <button onClick={onNextClick}>{'Next >'}</button>
       </div>

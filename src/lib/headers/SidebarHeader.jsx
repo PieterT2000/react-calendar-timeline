@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { TimelineHeadersConsumer } from './HeadersContext';
-import { LEFT_VARIANT, RIGHT_VARIANT, SECOND_LEFT_VARIANT } from './constants';
+import { LEFT_VARIANT, RIGHT_VARIANT, GRID_VARIANT } from './constants';
 
 class SidebarHeader extends React.PureComponent {
   getRootProps = (props = {}) => {
@@ -9,8 +9,8 @@ class SidebarHeader extends React.PureComponent {
     const width =
       this.props.variant === RIGHT_VARIANT
         ? this.props.rightSidebarWidth
-        : this.props.variant === SECOND_LEFT_VARIANT
-        ? this.props.secondLeftSidebarWidth
+        : this.props.variant === GRID_VARIANT
+        ? this.props.gridSidebarWidth
         : this.props.leftSidebarWidth;
     return {
       style: {
@@ -24,6 +24,9 @@ class SidebarHeader extends React.PureComponent {
     return {
       getRootProps: this.getRootProps,
       data: this.props.headerData,
+      ...(this.props.variant === GRID_VARIANT
+        ? { setGridSidebarHeaderColWidths: this.props.setGridSidebarHeaderColWidths }
+        : {}),
     };
   };
 
@@ -36,14 +39,15 @@ class SidebarHeader extends React.PureComponent {
 
 const SidebarWrapper = ({ children, variant, headerData }) => (
   <TimelineHeadersConsumer>
-    {({ leftSidebarWidth, rightSidebarWidth, secondLeftSidebarWidth }) => {
+    {({ leftSidebarWidth, rightSidebarWidth, gridSidebarWidth, setGridSidebarHeaderColWidths }) => {
       return (
         <SidebarHeader
           leftSidebarWidth={leftSidebarWidth}
           rightSidebarWidth={rightSidebarWidth}
-          secondLeftSidebarWidth={secondLeftSidebarWidth}
+          gridSidebarWidth={gridSidebarWidth}
           variant={variant}
-          headerData={headerData}>
+          headerData={headerData}
+          setGridSidebarHeaderColWidths={setGridSidebarHeaderColWidths}>
           {children}
         </SidebarHeader>
       );

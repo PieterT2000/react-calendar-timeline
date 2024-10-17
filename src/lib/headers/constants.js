@@ -1,3 +1,3 @@
 export const LEFT_VARIANT = 'left';
-export const SECOND_LEFT_VARIANT = 'secondLeft';
+export const GRID_VARIANT = 'grid';
 export const RIGHT_VARIANT = 'right';

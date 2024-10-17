@@ -16,7 +16,6 @@ import {
 } from 'react-calendar-timeline-v3';
 
 import generateFakeData from '../generate-fake-data';
-import './style.css';
 
 const minTime = moment().add(-6, 'months').valueOf();
 const maxTime = moment().add(6, 'months').valueOf();
@@ -183,12 +182,8 @@ export default class App extends Component {
           rightSidebarContent={<div>Above The Right</div>}>
           <TimelineHeaders className='header-background'>
             <SidebarHeader />
-            <DateHeader
-              labelFormat={this.state.format ? 'd' : undefined}
-              unit='primaryHeader'
-              className='position-relative'
-            />
-            <DateHeader height={50} className='position-relative' />
+            <DateHeader labelFormat={this.state.format ? 'd' : undefined} unit='primaryHeader' className='relative' />
+            <DateHeader height={50} className='relative' />
             <CustomHeader unit='year' headerData={{ hey: 'you' }}>
               {({ headerContext: { intervals }, getRootProps, getIntervalProps, showPeriod, data }) => {
                 console.log('props', data);
@@ -213,7 +208,7 @@ export default class App extends Component {
                             interval,
                             style: intervalStyle,
                           })}>
-                          <div className='sticky'>{interval.startTime.format('YYYY')}</div>
+                          <div className='custom-sticky'>{interval.startTime.format('YYYY')}</div>
                         </div>
                       );
                     })}
@@ -244,7 +239,7 @@ export default class App extends Component {
                             interval,
                             style: intervalStyle,
                           })}>
-                          <div className='sticky'>{interval.startTime.format('MM/DD')}</div>
+                          <div className='custom-sticky'>{interval.startTime.format('MM/DD')}</div>
                         </div>
                       );
                     })}
@@ -285,7 +280,7 @@ export default class App extends Component {
               unit='week'
               labelFormat='MM/DD'
               height={50}
-              className='position-relative'
+              className='relative'
               headerData={{ hey: 'date header' }}
               intervalRenderer={({ getIntervalProps, intervalContext, data }) => {
                 console.log('intervalRenderer props', data);
