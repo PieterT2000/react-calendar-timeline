@@ -26,6 +26,7 @@ import TimelineHeaders from './headers/TimelineHeaders';
 import { cn } from './utility/tw.js';
 import RenderHeaders from './headers/RenderHeaders.jsx';
 import { ReactCalendarTimelineProps, Unit } from 'react-calendar-timeline-v3';
+import GridSidebar from './layout/GridSidebar.js';
 
 interface ReactCalendarTimelineState {
   width: number;
@@ -63,7 +64,7 @@ export default class ReactCalendarTimeline extends Component<ReactCalendarTimeli
   static defaultProps = {
     sidebarWidth: 150,
     rightSidebarWidth: 0,
-    secondLeftSidebarWidth: 0,
+    gridSidebarWidth: 0,
     dragSnap: 1000 * 60 * 15, // 15min
     minResizeWidth: 20,
     lineHeight: 30,
@@ -115,7 +116,7 @@ export default class ReactCalendarTimeline extends Component<ReactCalendarTimeli
     timeSteps: defaultTimeSteps,
     headerRef: () => {},
     sidebarRef: () => {},
-    secondLeftSidebarRef: () => {},
+    gridSidebarRef: () => {},
     scrollRef: () => {},
 
     // if you pass in visibleTimeStart and visibleTimeEnd, you must also pass onTimeChange(visibleTimeStart, visibleTimeEnd),
@@ -139,28 +140,9 @@ export default class ReactCalendarTimeline extends Component<ReactCalendarTimeli
     hideHorizontalLines: false,
   };
 
-  getTimelineContext = () => {
-    const { width, visibleTimeStart, visibleTimeEnd, canvasTimeStart, canvasTimeEnd } = this.state;
-
-    return {
-      timelineWidth: width,
-      visibleTimeStart,
-      visibleTimeEnd,
-      canvasTimeStart,
-      canvasTimeEnd,
-    };
-  };
-
-  getTimelineUnit = () => {
-    const { width, visibleTimeStart, visibleTimeEnd } = this.state;
-
-    const { timeSteps } = this.props;
-
-    const zoom = visibleTimeEnd - visibleTimeStart;
-    const minUnit = getMinUnit(zoom, width, timeSteps, this.props.minCellWidth);
-
-    return minUnit;
-  };
+  // instance props
+  container: React.RefObject<HTMLDivElement> = React.createRef();
+  unit: Unit;
 
   constructor(props: ReactCalendarTimelineProps) {
     super(props);
@@ -334,11 +316,34 @@ export default class ReactCalendarTimeline extends Component<ReactCalendarTimeli
     }
   }
 
+  getTimelineContext = () => {
+    const { width, visibleTimeStart, visibleTimeEnd, canvasTimeStart, canvasTimeEnd } = this.state;
+
+    return {
+      timelineWidth: width,
+      visibleTimeStart,
+      visibleTimeEnd,
+      canvasTimeStart,
+      canvasTimeEnd,
+    };
+  };
+
+  getTimelineUnit = () => {
+    const { width, visibleTimeStart, visibleTimeEnd } = this.state;
+
+    const { timeSteps } = this.props;
+
+    const zoom = visibleTimeEnd - visibleTimeStart;
+    const minUnit = getMinUnit(zoom, width, timeSteps, this.props.minCellWidth);
+
+    return minUnit;
+  };
+
   calcCanvasAndVisibleWidth = () => {
-    const { width: containerWidth } = this.container.getBoundingClientRect();
+    const { width: containerWidth } = this.container.current!.getBoundingClientRect();
 
     const width =
-      containerWidth - this.props.sidebarWidth! - this.props.secondLeftSidebarWidth! - this.props.rightSidebarWidth!;
+      containerWidth - this.props.sidebarWidth! - this.props.gridSidebarWidth! - this.props.rightSidebarWidth!;
     const canvasWidth = getCanvasWidth(width, this.props.buffer);
 
     return { canvasWidth, width };
@@ -698,20 +703,19 @@ export default class ReactCalendarTimeline extends Component<ReactCalendarTimeli
     );
   }
 
-  secondLeftSidebar(height, groupHeights) {
-    const { secondLeftSidebarWidth } = this.props;
+  gridSidebar(height, groupHeights) {
+    const { gridSidebarWidth } = this.props;
     return (
-      secondLeftSidebarWidth && (
-        <Sidebar
-          sidebarRef={this.props.secondLeftSidebarRef}
+      gridSidebarWidth &&
+      this.props.gridSidebarGroupRenderer && (
+        <GridSidebar
+          sidebarRef={this.props.gridSidebarRef}
           groups={this.props.groups}
-          keys={this.props.keys}
-          groupRenderer={this.props.secondLeftSidebarGroupRenderer}
-          isRightSidebar={false}
-          width={secondLeftSidebarWidth}
+          groupRenderer={this.props.gridSidebarGroupRenderer}
           groupHeights={groupHeights}
           height={height}
-          sidebarGroupClassName={this.props.sidebarGroupClassName}
+          gridSidebarClassName={this.props.gridSidebarClassName}
+          gridSidebarStyle={this.props.gridSidebarStyle}
         />
       )
     );
@@ -812,16 +816,8 @@ export default class ReactCalendarTimeline extends Component<ReactCalendarTimeli
   };
 
   render() {
-    const {
-      items,
-      groups,
-      sidebarWidth,
-      rightSidebarWidth,
-      secondLeftSidebarWidth,
-      timeSteps,
-      traditionalZoom,
-      buffer,
-    } = this.props;
+    const { items, groups, sidebarWidth, rightSidebarWidth, gridSidebarWidth, timeSteps, traditionalZoom, buffer } =
+      this.props;
     const { draggingItem, resizingItem, width, visibleTimeStart, visibleTimeEnd, canvasTimeStart, canvasTimeEnd } =
       this.state;
     let { dimensionItems, height, groupHeights, groupTops } = this.state;
@@ -875,15 +871,12 @@ export default class ReactCalendarTimeline extends Component<ReactCalendarTimeli
             timeSteps={timeSteps}
             leftSidebarWidth={this.props.sidebarWidth}
             rightSidebarWidth={this.props.rightSidebarWidth}
-            secondLeftSidebarWidth={this.props.secondLeftSidebarWidth}>
-            <div
-              style={this.props.style}
-              ref={(el) => (this.container = el)}
-              className={cn('react-timeline', this.props.className)}>
+            gridSidebarWidth={this.props.gridSidebarWidth}>
+            <div style={this.props.style} ref={this.container} className={cn('react-timeline', this.props.className)}>
               <RenderHeaders isTimelineHeader={this.isTimelineHeader}>{this.props.children}</RenderHeaders>
               <div style={outerComponentStyle} className='block overflow-hidden whitespace-nowrap'>
-                {sidebarWidth > 0 ? this.sidebar(height, groupHeights) : null}
-                {secondLeftSidebarWidth > 0 ? this.secondLeftSidebar(height, groupHeights) : null}
+                {sidebarWidth && sidebarWidth > 0 ? this.sidebar(height, groupHeights) : null}
+                {gridSidebarWidth && gridSidebarWidth > 0 ? this.gridSidebar(height, groupHeights) : null}
                 <ScrollElement
                   scrollRef={this.getScrollElementRef}
                   width={width}
@@ -924,7 +917,7 @@ export default class ReactCalendarTimeline extends Component<ReactCalendarTimeli
                     )}
                   </MarkerCanvas>
                 </ScrollElement>
-                {rightSidebarWidth > 0 && this.rightSidebar(height, groupHeights)}
+                {rightSidebarWidth && rightSidebarWidth > 0 && this.rightSidebar(height, groupHeights)}
               </div>
             </div>
           </TimelineHeadersProvider>

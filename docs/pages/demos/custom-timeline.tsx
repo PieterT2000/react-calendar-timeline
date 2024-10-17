@@ -247,7 +247,7 @@ export default function App() {
 
   const debouncedHandleCanvasResize = useCallback(throttle(handleCanvasResize, 100), [handleCanvasResize]);
 
-  const secondSidebarColumnRenderer: TimelineRenderProps['secondLeftSidebarGroupRenderer'] = ({ group }) => {
+  const secondSidebarColumnRenderer: TimelineRenderProps['gridSidebarGroupRenderer'] = ({ group }) => {
     // Find item that belongs to this group
     // assuming there is only one item per group
     const item = items.find((item) => item.group === group.id);
@@ -276,7 +276,7 @@ export default function App() {
           items={items}
           lineHeight={54}
           sidebarWidth={220}
-          secondLeftSidebarWidth={400}
+          gridSidebarWidth={400}
           canMove
           stackItems
           canResize='both'
@@ -295,7 +295,7 @@ export default function App() {
           onUnitChange={(unit) => setMonthlyCellsVisible(unit === 'month')}
           itemRenderer={itemRenderer}
           groupRenderer={groupRenderer}
-          secondLeftSidebarGroupRenderer={secondSidebarColumnRenderer}
+          gridSidebarGroupRenderer={secondSidebarColumnRenderer}
           canChangeGroup={false}
           minCellWidth={20}
           verticalLineClassNamesForTime={(start, end) => {
@@ -357,7 +357,7 @@ export default function App() {
                 </div>
               )}
             </SidebarHeader>
-            <SidebarHeader variant='secondLeft'>
+            <SidebarHeader variant='grid'>
               {({ getRootProps }) => (
                 <div
                   {...getRootProps({

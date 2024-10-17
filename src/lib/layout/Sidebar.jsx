@@ -19,6 +19,7 @@ export default class Sidebar extends Component {
       return React.createElement(this.props.groupRenderer, {
         group,
         isRightSidebar,
+        height: this.props.groupHeights[index],
         index,
       });
     } else {
