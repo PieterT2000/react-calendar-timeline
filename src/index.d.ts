@@ -112,6 +112,7 @@ declare module 'react-calendar-timeline-v3' {
      * The minimum width (in pixels) for each cell. This can be adjusted to change how often the timeline switches to the next unit of time.
      */
     minCellWidth?: number | undefined;
+    hideHorizontalLines?: boolean | undefined;
   }
 
   export interface TimelineTimeSteps {

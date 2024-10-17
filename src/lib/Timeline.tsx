@@ -136,6 +136,7 @@ export default class ReactCalendarTimeline extends Component<ReactCalendarTimeli
     selected: null,
     disableScroll: false,
     minCellWidth: 17,
+    hideHorizontalLines: false,
   };
 
   getTimelineContext = () => {
@@ -894,7 +895,9 @@ export default class ReactCalendarTimeline extends Component<ReactCalendarTimeli
                   isInteractingWithItem={isInteractingWithItem}
                   disableScroll={this.props.disableScroll}>
                   <MarkerCanvas>
-                    {this.columns(canvasTimeStart, canvasTimeEnd, canvasWidth, minUnit, timeSteps, height)}
+                    {this.props.hideHorizontalLines
+                      ? null
+                      : this.columns(canvasTimeStart, canvasTimeEnd, canvasWidth, minUnit, timeSteps, height)}
                     {this.rows(canvasWidth, groupHeights, groups)}
                     {this.items(
                       canvasTimeStart,
