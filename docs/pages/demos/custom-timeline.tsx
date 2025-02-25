@@ -400,6 +400,7 @@ export default function App() {
                               showPeriod(interval.startTime, interval.endTime);
                             },
                           })}
+                          key={interval.startTime.valueOf()}
                           className={cn('absolute px-3 py-2 h-full border-l', BORDER_COLOR)}>
                           <div className='flex flex-col h-full justify-end max-w-[200px] gap-y-2'>
                             {yearData.attributes.map((attribute) => (

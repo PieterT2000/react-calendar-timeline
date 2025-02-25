@@ -34,7 +34,11 @@ class SidebarHeader extends React.PureComponent {
   }
 }
 
-const SidebarWrapper = ({ children, variant, headerData }) => (
+const SidebarWrapper = ({
+  children = ({ getRootProps }) => <div data-testid='sidebarHeader' {...getRootProps()} />,
+  variant = LEFT_VARIANT,
+  headerData,
+}) => (
   <TimelineHeadersConsumer>
     {({ leftSidebarWidth, rightSidebarWidth, secondLeftSidebarWidth }) => {
       return (
@@ -50,11 +54,6 @@ const SidebarWrapper = ({ children, variant, headerData }) => (
     }}
   </TimelineHeadersConsumer>
 );
-
-SidebarWrapper.defaultProps = {
-  variant: LEFT_VARIANT,
-  children: ({ getRootProps }) => <div data-testid='sidebarHeader' {...getRootProps()} />,
-};
 
 SidebarWrapper.secretKey = 'SidebarHeader';
 
