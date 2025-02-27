@@ -207,7 +207,8 @@ export default class App extends Component {
                           {...getIntervalProps({
                             interval,
                             style: intervalStyle,
-                          })}>
+                          })}
+                          key={interval.startTime.valueOf()}>
                           <div className='custom-sticky'>{interval.startTime.format('YYYY')}</div>
                         </div>
                       );
@@ -238,7 +239,8 @@ export default class App extends Component {
                           {...getIntervalProps({
                             interval,
                             style: intervalStyle,
-                          })}>
+                          })}
+                          key={interval.startTime.valueOf()}>
                           <div className='custom-sticky'>{interval.startTime.format('MM/DD')}</div>
                         </div>
                       );
@@ -267,7 +269,8 @@ export default class App extends Component {
                           {...getIntervalProps({
                             interval,
                             style: intervalStyle,
-                          })}>
+                          })}
+                          key={interval.startTime.valueOf()}>
                           {interval.startTime.format('HH')}
                         </div>
                       );

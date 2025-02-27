@@ -118,7 +118,6 @@ export class CustomHeader extends React.Component {
         unit: this.props.unit,
         left,
       }),
-      key: `label-${startTime.valueOf()}`,
     };
   };
 
@@ -168,7 +167,7 @@ export class CustomHeader extends React.Component {
   }
 }
 
-const CustomHeaderWrapper = ({ children, unit, headerData, height }) => (
+const CustomHeaderWrapper = ({ children, unit, headerData, height = 30 }) => (
   <TimelineStateConsumer>
     {({ getTimelineState, showPeriod, getLeftOffsetFromDate }) => {
       const timelineState = getTimelineState();
@@ -191,9 +190,5 @@ const CustomHeaderWrapper = ({ children, unit, headerData, height }) => (
     }}
   </TimelineStateConsumer>
 );
-
-CustomHeaderWrapper.defaultProps = {
-  height: 30,
-};
 
 export default CustomHeaderWrapper;
