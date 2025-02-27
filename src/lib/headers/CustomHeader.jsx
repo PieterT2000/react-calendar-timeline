@@ -33,7 +33,8 @@ export class CustomHeader extends React.Component {
       nextProps.timeSteps !== this.props.timeSteps ||
       nextProps.showPeriod !== this.props.showPeriod ||
       nextProps.children !== this.props.children ||
-      nextProps.headerData !== this.props.headerData
+      nextProps.headerData !== this.props.headerData ||
+      nextProps.height !== this.props.height
     ) {
       return true;
     }

@@ -6,7 +6,7 @@ const RenderHeaders = ({ children, isTimelineHeader }) => {
   if (children) {
     let headerRenderer;
     React.Children.map(children, (child) => {
-      if (isTimelineHeader(child)) {
+      if (child && child.type && isTimelineHeader(child)) {
         headerRenderer = child;
       }
     });

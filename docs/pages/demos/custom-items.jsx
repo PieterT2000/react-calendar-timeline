@@ -4,7 +4,6 @@ import moment from 'moment';
 import { Timeline } from 'react-calendar-timeline-v3';
 
 import generateFakeData from '../generate-fake-data';
-
 const minTime = moment().add(-6, 'months').valueOf();
 const maxTime = moment().add(6, 'months').valueOf();
 

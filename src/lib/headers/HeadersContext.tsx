@@ -1,4 +1,4 @@
-import React, { useMemo, useContext } from 'react';
+import React, { useMemo, useContext, useState } from 'react';
 
 import { noop } from '../utility/generic';
 import { TimelineTimeSteps } from 'react-calendar-timeline-v3';
@@ -10,8 +10,10 @@ const defaultContextState = {
   },
   rightSidebarWidth: 0,
   leftSidebarWidth: 150,
-  secondLeftSidebarWidth: 0,
+  gridSidebarWidth: 0,
+  gridSidebarHeaderColWidths: [] as number[],
   timeSteps: {} as TimelineTimeSteps,
+  setGridSidebarHeaderColWidths: noop as React.Dispatch<React.SetStateAction<number[]>>,
 };
 
 export const TimelineHeadersContext = React.createContext(defaultContextState);
@@ -20,32 +22,37 @@ export function TimelineHeadersProvider({
   children,
   rightSidebarWidth,
   leftSidebarWidth,
-  secondLeftSidebarWidth,
+  gridSidebarWidth,
   timeSteps,
   registerScroll,
 }: {
   children: React.ReactNode;
   rightSidebarWidth?: number;
   leftSidebarWidth?: number;
-  secondLeftSidebarWidth?: number;
+  gridSidebarWidth?: number;
   timeSteps?: TimelineTimeSteps;
   registerScroll: (element?: HTMLElement) => void;
 }) {
+  const [gridSidebarHeaderColWidths, setGridSidebarHeaderColWidths] = useState<number[]>([]);
   const contextValue = useMemo(
     () => ({
       rightSidebarWidth: rightSidebarWidth ?? defaultContextState.rightSidebarWidth,
       leftSidebarWidth: leftSidebarWidth ?? defaultContextState.leftSidebarWidth,
-      secondLeftSidebarWidth: secondLeftSidebarWidth ?? defaultContextState.secondLeftSidebarWidth,
+      gridSidebarWidth: gridSidebarWidth ?? defaultContextState.gridSidebarWidth,
+      gridSidebarHeaderColWidths,
       timeSteps: timeSteps ?? defaultContextState.timeSteps,
       registerScroll,
+      setGridSidebarHeaderColWidths,
     }),
-    [rightSidebarWidth, leftSidebarWidth, secondLeftSidebarWidth, timeSteps, registerScroll]
+    [rightSidebarWidth, leftSidebarWidth, gridSidebarWidth, timeSteps, registerScroll, gridSidebarHeaderColWidths]
   );
 
   return <TimelineHeadersContext.Provider value={contextValue}>{children}</TimelineHeadersContext.Provider>;
 }
 
+export const useHeadersContext = () => useContext(TimelineHeadersContext);
+
 export function TimelineHeadersConsumer(props: { children: (context: typeof defaultContextState) => React.ReactNode }) {
-  const context = useContext(TimelineHeadersContext);
+  const context = useHeadersContext();
   return props.children(context);
 }

@@ -1,5 +1,7 @@
 import React from 'react';
 import { createTheme, defaultSideNavs } from 'vite-pages-theme-doc';
+import './index.css';
+import 'style.css';
 
 import Component404 from './404';
 

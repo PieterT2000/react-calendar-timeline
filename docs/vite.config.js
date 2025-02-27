@@ -60,7 +60,8 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      'react-calendar-timeline-v3': path.join(__dirname, '../src'),
+      'react-calendar-timeline-v3': path.join(__dirname, '../dist/react-calendar-timeline-v3.js'),
+      'style.css': path.join(__dirname, '../dist/style.css'),
     },
   },
 });

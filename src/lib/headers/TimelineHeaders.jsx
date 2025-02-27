@@ -2,7 +2,7 @@ import React from 'react';
 
 import { TimelineHeadersConsumer } from './HeadersContext';
 import SidebarHeader from './SidebarHeader';
-import { RIGHT_VARIANT, SECOND_LEFT_VARIANT } from './constants';
+import { RIGHT_VARIANT, GRID_VARIANT } from './constants';
 import { cn } from '../utility/tw';
 
 class TimelineHeaders extends React.Component {
@@ -19,10 +19,10 @@ class TimelineHeaders extends React.Component {
   };
 
   getCalendarHeaderStyle = () => {
-    const { leftSidebarWidth, rightSidebarWidth, secondLeftSidebarWidth, calendarHeaderStyle } = this.props;
+    const { leftSidebarWidth, rightSidebarWidth, gridSidebarWidth, calendarHeaderStyle } = this.props;
     return {
       ...calendarHeaderStyle,
-      width: `calc(100% - ${leftSidebarWidth + rightSidebarWidth + secondLeftSidebarWidth}px)`,
+      width: `calc(100% - ${leftSidebarWidth + rightSidebarWidth + gridSidebarWidth}px)`,
     };
   };
 
@@ -44,15 +44,15 @@ class TimelineHeaders extends React.Component {
   render() {
     let rightSidebarHeader;
     let leftSidebarHeader;
-    let secondLeftSidebarHeader;
+    let gridSidebarHeader;
     const calendarHeaders = [];
     const children = Array.isArray(this.props.children) ? this.props.children.filter((c) => c) : [this.props.children];
     React.Children.forEach(children, (child) => {
       if (this.isSidebarHeader(child)) {
         if (child.props.variant === RIGHT_VARIANT) {
           rightSidebarHeader = child;
-        } else if (child.props.variant === SECOND_LEFT_VARIANT) {
-          secondLeftSidebarHeader = child;
+        } else if (child.props.variant === GRID_VARIANT) {
+          gridSidebarHeader = child;
         } else {
           leftSidebarHeader = child;
         }
@@ -67,8 +67,8 @@ class TimelineHeaders extends React.Component {
       rightSidebarHeader = <SidebarHeader variant={RIGHT_VARIANT} />;
     }
 
-    if (!secondLeftSidebarHeader && this.props.secondLeftSidebarWidth) {
-      secondLeftSidebarHeader = <SidebarHeader variant={SECOND_LEFT_VARIANT} />;
+    if (!gridSidebarHeader && this.props.gridSidebarWidth) {
+      gridSidebarHeader = <SidebarHeader variant={GRID_VARIANT} />;
     }
     return (
       <div
@@ -77,7 +77,7 @@ class TimelineHeaders extends React.Component {
         style={this.getRootStyle()}
         className={cn('bg-sidebarBackgroundColor border-b border-borderColor', this.props.className)}>
         {leftSidebarHeader}
-        {secondLeftSidebarHeader}
+        {gridSidebarHeader}
         <div
           ref={this.props.registerScroll}
           style={this.getCalendarHeaderStyle()}
@@ -100,12 +100,12 @@ const TimelineHeadersWrapper = ({
   headerRef,
 }) => (
   <TimelineHeadersConsumer>
-    {({ leftSidebarWidth, rightSidebarWidth, secondLeftSidebarWidth, registerScroll }) => {
+    {({ leftSidebarWidth, rightSidebarWidth, gridSidebarWidth, registerScroll }) => {
       return (
         <TimelineHeaders
           leftSidebarWidth={leftSidebarWidth}
           rightSidebarWidth={rightSidebarWidth}
-          secondLeftSidebarWidth={secondLeftSidebarWidth}
+          gridSidebarWidth={gridSidebarWidth}
           registerScroll={registerScroll}
           style={style}
           className={className}
