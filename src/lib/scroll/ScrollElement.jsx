@@ -39,8 +39,8 @@ class ScrollElement extends Component {
   };
 
   handleWheel = (e) => {
-    e.preventDefault();
     if (detectTrackPad(e)) {
+      e.preventDefault();
       const wheelDistance = (evt) => {
         if (!evt) evt = event;
         var w = evt.wheelDeltaX,
