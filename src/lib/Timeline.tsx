@@ -58,6 +58,9 @@ interface ReactCalendarTimelineState {
   groupTops?: number[];
   draggingItem?: any;
   newGroupOrder?: any;
+  isOuterDragging?: boolean;
+  outerDragStartPosition?: { x: number; y: number };
+  outerDragLastPosition?: { x: number; y: number };
 }
 
 export default class ReactCalendarTimeline extends Component<ReactCalendarTimelineProps, ReactCalendarTimelineState> {
@@ -138,6 +141,10 @@ export default class ReactCalendarTimeline extends Component<ReactCalendarTimeli
     disableScroll: false,
     minCellWidth: 17,
     hideHorizontalLines: false,
+    isOuterDragging: false,
+    outerDragStartPosition: null,
+    outerDragLastPosition: null,
+    maxScrollHeight: null,
   };
 
   // instance props
@@ -815,6 +822,71 @@ export default class ReactCalendarTimeline extends Component<ReactCalendarTimeli
     this.scrollComponent = el;
   };
 
+  // functions to handle vertical scrolling on drag
+  handleOuterMouseDown = (e) => {
+    if (this.props.disableScroll) {
+      return;
+    }
+    const scrollElement = e.target.closest('[data-testid="scroll-element"]');
+    if (!scrollElement) {
+      return;
+    }
+
+    if (e.button === 0) {
+      this.outerDragStartPosition = { x: e.pageX, y: e.pageY };
+      this.outerDragLastPosition = { x: e.pageX, y: e.pageY };
+      this.setState({
+        isOuterDragging: true,
+      });
+    }
+  };
+  handleOuterMouseMove = (e) => {
+    if (this.props.disableScroll) {
+      return;
+    }
+    if (this.state.isOuterDragging && !this.state.draggingItem && !this.state.resizingItem) {
+      const scrollElement = e.target.closest('[data-testid="scroll-element"]');
+      if (!scrollElement) {
+        return;
+      }
+
+      const deltaX = this.outerDragLastPosition.x - e.pageX;
+      const deltaY = this.outerDragLastPosition.y - e.pageY;
+
+      // Handle horizontal scrolling by calling the ScrollElement's onScroll
+      if (this.scrollComponent) {
+        this.onScroll(this.scrollComponent.scrollLeft + deltaX);
+      }
+      // Handle vertical scrolling on the outer div
+      const outerDiv = e.currentTarget;
+      if (outerDiv.scrollHeight > outerDiv.clientHeight) {
+        outerDiv.scrollTop = outerDiv.scrollTop + deltaY;
+      }
+      this.outerDragLastPosition = { x: e.pageX, y: e.pageY };
+    }
+  };
+  handleOuterMouseUp = () => {
+    if (this.props.disableScroll) {
+      return;
+    }
+    this.outerDragStartPosition = null;
+    this.outerDragLastPosition = null;
+    this.setState({
+      isOuterDragging: false,
+    });
+  };
+
+  handleOuterMouseLeave = () => {
+    if (this.props.disableScroll) {
+      return;
+    }
+    this.outerDragStartPosition = null;
+    this.outerDragLastPosition = null;
+    this.setState({
+      isOuterDragging: false,
+    });
+  };
+
   render() {
     const { items, groups, sidebarWidth, rightSidebarWidth, gridSidebarWidth, timeSteps, traditionalZoom, buffer } =
       this.props;
@@ -852,7 +924,7 @@ export default class ReactCalendarTimeline extends Component<ReactCalendarTimeli
     }
 
     const outerComponentStyle = {
-      height: `${height}px`,
+      height: this.props.maxScrollHeight ? `${this.props.maxScrollHeight}px` : `${height}px`,
     };
 
     return (
@@ -874,7 +946,13 @@ export default class ReactCalendarTimeline extends Component<ReactCalendarTimeli
             gridSidebarWidth={this.props.gridSidebarWidth}>
             <div style={this.props.style} ref={this.container} className={cn('react-timeline', this.props.className)}>
               <RenderHeaders isTimelineHeader={this.isTimelineHeader}>{this.props.children}</RenderHeaders>
-              <div style={outerComponentStyle} className='block overflow-hidden whitespace-nowrap'>
+              <div
+                style={outerComponentStyle}
+                className='block overflow-auto whitespace-nowrap'
+                onMouseDown={this.handleOuterMouseDown}
+                onMouseMove={this.handleOuterMouseMove}
+                onMouseUp={this.handleOuterMouseUp}
+                onMouseLeave={this.handleOuterMouseLeave}>
                 {sidebarWidth && sidebarWidth > 0 ? this.sidebar(height, groupHeights) : null}
                 {gridSidebarWidth && gridSidebarWidth > 0 ? this.gridSidebar(height, groupHeights) : null}
                 <ScrollElement
@@ -917,7 +995,7 @@ export default class ReactCalendarTimeline extends Component<ReactCalendarTimeli
                     )}
                   </MarkerCanvas>
                 </ScrollElement>
-                {rightSidebarWidth && rightSidebarWidth > 0 && this.rightSidebar(height, groupHeights)}
+                {rightSidebarWidth && rightSidebarWidth > 0 ? this.rightSidebar(height, groupHeights) : null}
               </div>
             </div>
           </TimelineHeadersProvider>
