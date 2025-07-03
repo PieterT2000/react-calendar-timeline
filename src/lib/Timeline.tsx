@@ -853,10 +853,6 @@ export default class ReactCalendarTimeline extends Component<ReactCalendarTimeli
       const deltaX = this.outerDragLastPosition.x - e.pageX;
       const deltaY = this.outerDragLastPosition.y - e.pageY;
 
-      // Handle horizontal scrolling by calling the ScrollElement's onScroll
-      if (this.scrollComponent) {
-        this.onScroll(this.scrollComponent.scrollLeft + deltaX);
-      }
       // Handle vertical scrolling on the outer div
       const outerDiv = e.currentTarget;
       if (outerDiv.scrollHeight > outerDiv.clientHeight) {
@@ -948,7 +944,7 @@ export default class ReactCalendarTimeline extends Component<ReactCalendarTimeli
               <RenderHeaders isTimelineHeader={this.isTimelineHeader}>{this.props.children}</RenderHeaders>
               <div
                 style={outerComponentStyle}
-                className='block overflow-auto whitespace-nowrap'
+                className='block overflow-x-hidden overflow-y-auto whitespace-nowrap no-scrollbar'
                 onMouseDown={this.handleOuterMouseDown}
                 onMouseMove={this.handleOuterMouseMove}
                 onMouseUp={this.handleOuterMouseUp}

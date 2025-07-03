@@ -187,7 +187,7 @@ class ScrollElement extends Component {
 
     const scrollComponentStyle = {
       width: `${width}px`,
-      height: `${height + 20}px`, //20px to push the scroll element down off screen...?
+      height: `${height}px`, //20px to push the scroll element down off screen...?
       cursor: isDragging ? 'move' : 'default',
     };
 
@@ -195,7 +195,7 @@ class ScrollElement extends Component {
       <div
         ref={this.refHandler}
         data-testid='scroll-element'
-        className='inline-block whitespace-normal align-top overflow-x-scroll overflow-y-hidden touch-none relative'
+        className='inline-block whitespace-normal align-top overflow-x-scroll overflow-y-hidden touch-none relative no-scrollbar'
         style={scrollComponentStyle}
         onMouseDown={this.handleMouseDown}
         onMouseMove={this.handleMouseMove}
