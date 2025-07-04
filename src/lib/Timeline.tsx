@@ -824,9 +824,6 @@ export default class ReactCalendarTimeline extends Component<ReactCalendarTimeli
 
   // functions to handle vertical scrolling on drag
   handleOuterMouseDown = (e) => {
-    if (this.props.disableScroll) {
-      return;
-    }
     const scrollElement = e.target.closest('[data-testid="scroll-element"]');
     if (!scrollElement) {
       return;
@@ -841,9 +838,6 @@ export default class ReactCalendarTimeline extends Component<ReactCalendarTimeli
     }
   };
   handleOuterMouseMove = (e) => {
-    if (this.props.disableScroll) {
-      return;
-    }
     if (this.state.isOuterDragging && !this.state.draggingItem && !this.state.resizingItem) {
       const scrollElement = e.target.closest('[data-testid="scroll-element"]');
       if (!scrollElement) {
@@ -862,9 +856,6 @@ export default class ReactCalendarTimeline extends Component<ReactCalendarTimeli
     }
   };
   handleOuterMouseUp = () => {
-    if (this.props.disableScroll) {
-      return;
-    }
     this.outerDragStartPosition = null;
     this.outerDragLastPosition = null;
     this.setState({
@@ -873,9 +864,6 @@ export default class ReactCalendarTimeline extends Component<ReactCalendarTimeli
   };
 
   handleOuterMouseLeave = () => {
-    if (this.props.disableScroll) {
-      return;
-    }
     this.outerDragStartPosition = null;
     this.outerDragLastPosition = null;
     this.setState({
@@ -944,11 +932,14 @@ export default class ReactCalendarTimeline extends Component<ReactCalendarTimeli
               <RenderHeaders isTimelineHeader={this.isTimelineHeader}>{this.props.children}</RenderHeaders>
               <div
                 style={outerComponentStyle}
-                className='block overflow-x-hidden overflow-y-auto whitespace-nowrap no-scrollbar'
-                onMouseDown={this.handleOuterMouseDown}
-                onMouseMove={this.handleOuterMouseMove}
-                onMouseUp={this.handleOuterMouseUp}
-                onMouseLeave={this.handleOuterMouseLeave}>
+                className={cn(
+                  'block whitespace-nowrap',
+                  this.props.maxScrollHeight ? 'overflow-x-hidden overflow-y-auto no-scrollbar' : 'overflow-hidden'
+                )}
+                onMouseDown={this.props.maxScrollHeight ? this.handleOuterMouseDown : undefined}
+                onMouseMove={this.props.maxScrollHeight ? this.handleOuterMouseMove : undefined}
+                onMouseUp={this.props.maxScrollHeight ? this.handleOuterMouseUp : undefined}
+                onMouseLeave={this.props.maxScrollHeight ? this.handleOuterMouseLeave : undefined}>
                 {sidebarWidth && sidebarWidth > 0 ? this.sidebar(height, groupHeights) : null}
                 {gridSidebarWidth && gridSidebarWidth > 0 ? this.gridSidebar(height, groupHeights) : null}
                 <ScrollElement
@@ -959,6 +950,7 @@ export default class ReactCalendarTimeline extends Component<ReactCalendarTimeli
                   onWheelZoom={this.handleWheelZoom}
                   traditionalZoom={traditionalZoom}
                   onScroll={this.onScroll}
+                  maxScrollHeight={this.props.maxScrollHeight}
                   isInteractingWithItem={isInteractingWithItem}
                   disableScroll={this.props.disableScroll}>
                   <MarkerCanvas>
