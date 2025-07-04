@@ -121,6 +121,7 @@ declare module 'react-calendar-timeline-v3' {
     hideHorizontalLines?: boolean | undefined;
     disableScroll?: boolean | undefined;
     style?: React.CSSProperties | undefined;
+    maxScrollHeight?: number | undefined;
   }
 
   export interface TimelineTimeSteps {

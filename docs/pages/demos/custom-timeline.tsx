@@ -284,6 +284,7 @@ export default function App() {
           itemHeightRatio={0.75}
           defaultTimeStart={TIME_CONSTANTS.defaultTimeStart}
           defaultTimeEnd={TIME_CONSTANTS.defaultTimeEnd}
+          maxScrollHeight={300}
           // If minZoom is changed, labelFormat in the second DateHeader should be updated
           minZoom={365.24 * 86400 * 1000} // 1 year
           // Maxzoom depends on the width of the canvas since the first header column has a min width of 200px
@@ -320,7 +321,7 @@ export default function App() {
                   top: styles.top,
                   bottom: styles.bottom,
                 };
-                return <div style={customStyles} className='bg-accent pointer-events-none absolute w-0.5' />;
+                return <div style={customStyles} className='bg-accent z-[50] pointer-events-none absolute w-0.5' />;
               }}
             </TodayMarker>
           </TimelineMarkers>
