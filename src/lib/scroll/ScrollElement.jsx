@@ -2,6 +2,18 @@ import React, { Component } from 'react';
 
 import { getParentPosition } from '../utility/dom-helpers';
 
+function detectTrackPad(e) {
+  let isTrackpad = false;
+  if (e.wheelDeltaY) {
+    if (Math.abs(e.wheelDeltaY) !== 120) {
+      isTrackpad = true;
+    }
+  } else if (e.deltaMode === 0) {
+    isTrackpad = true;
+  }
+  return isTrackpad;
+}
+
 class ScrollElement extends Component {
   constructor() {
     super();
@@ -27,6 +39,19 @@ class ScrollElement extends Component {
   };
 
   handleWheel = (e) => {
+    if (detectTrackPad(e)) {
+      const wheelDistance = (evt) => {
+        if (!evt) evt = event;
+        var w = evt.wheelDeltaX,
+          d = evt.detail;
+        if (d) {
+          if (w) return (w / d / 40) * d > 0 ? 1 : -1;
+          else return -d / 3;
+        } else return w / 120;
+      };
+      this.props.onScroll(this.scrollComponent.scrollLeft + wheelDistance(e) * -40);
+    }
+
     // zoom in the time dimension
     if (e.ctrlKey || e.metaKey || e.altKey) {
       e.preventDefault();
@@ -156,12 +181,12 @@ class ScrollElement extends Component {
   }
 
   render() {
-    const { width, height, children } = this.props;
+    const { width, height, children, maxScrollHeight } = this.props;
     const { isDragging } = this.state;
 
     const scrollComponentStyle = {
       width: `${width}px`,
-      height: `${height + 20}px`, //20px to push the scroll element down off screen...?
+      height: `${height + (maxScrollHeight ? 0 : 20)}px`, //20px to push the scroll element down off screen...?
       cursor: isDragging ? 'move' : 'default',
     };
 
@@ -169,7 +194,7 @@ class ScrollElement extends Component {
       <div
         ref={this.refHandler}
         data-testid='scroll-element'
-        className='inline-block whitespace-normal align-top overflow-x-scroll overflow-y-hidden touch-none relative'
+        className='inline-block whitespace-normal align-top overflow-x-scroll overflow-y-hidden touch-none relative no-scrollbar'
         style={scrollComponentStyle}
         onMouseDown={this.handleMouseDown}
         onMouseMove={this.handleMouseMove}

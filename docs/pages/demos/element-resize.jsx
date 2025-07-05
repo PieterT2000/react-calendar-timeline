@@ -5,7 +5,6 @@ import { Timeline } from 'react-calendar-timeline-v3';
 import containerResizeDetector from '../../../src/resize-detector/container';
 
 import generateFakeData from '../generate-fake-data';
-import './style.css';
 
 const keys = {
   groupIdKey: 'id',

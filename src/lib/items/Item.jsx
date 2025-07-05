@@ -419,7 +419,6 @@ export default class Item extends Component {
   getItemProps = (props = {}) => {
     //TODO: maybe shouldnt include all of these classes
     return {
-      key: this.itemId,
       ref: this.getItemRef,
       title: this.itemDivTitle,
       className: this.getItemClassName(props),

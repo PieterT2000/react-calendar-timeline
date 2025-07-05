@@ -67,18 +67,14 @@ class DateHeader extends React.Component {
   }
 }
 
-const DateHeaderWrapper = (props) => (
+const DateHeaderWrapper = ({ labelFormat = formatLabel, ...props }) => (
   <TimelineStateConsumer>
     {({ getTimelineState }) => {
       const timelineState = getTimelineState();
-      return <DateHeader timelineUnit={timelineState.timelineUnit} {...props} />;
+      return <DateHeader timelineUnit={timelineState.timelineUnit} labelFormat={labelFormat} {...props} />;
     }}
   </TimelineStateConsumer>
 );
-
-DateHeaderWrapper.defaultProps = {
-  labelFormat: formatLabel,
-};
 
 function formatLabel([timeStart, _timeEnd], unit, labelWidth, formatOptions = defaultHeaderFormats) {
   let format;

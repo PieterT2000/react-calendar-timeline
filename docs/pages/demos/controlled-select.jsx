@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import React, { Component } from 'react';
+import React from 'react';
 import moment from 'moment';
 
 import { Timeline, TimelineMarkers, TodayMarker, CustomMarker, CursorMarker } from 'react-calendar-timeline-v3';
