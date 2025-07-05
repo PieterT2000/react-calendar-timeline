@@ -908,7 +908,8 @@ export default class ReactCalendarTimeline extends Component<ReactCalendarTimeli
     }
 
     const outerComponentStyle = {
-      height: this.props.maxScrollHeight ? `${this.props.maxScrollHeight}px` : `${height}px`,
+      height: this.props.maxScrollHeight ? undefined : `${height}px`,
+      maxHeight: this.props.maxScrollHeight ? `${this.props.maxScrollHeight}px` : `${height}px`,
     };
 
     return (
